@@ -1,4 +1,0 @@
-CREATE TABLE Artists AS
-SELECT DISTINCT artists
-FROM dataset
-WHERE artists IS NOT NULL;
