@@ -1,7 +1,6 @@
 -- =====================================================
--- PROYECTO SQL IRONHACK - SCRIPT COMPLETO CORREGIDO
--- Juan Boberg Aguirre - Data Analytics Bootcamp
--- Dataset Spotify → 6 tablas + análisis + exportación
+-- Dataset Spotify → 5 tablas + análisis + exportación
+-- TODAS LAS TABLAS EN MINÚSCULAS | SIN audio_analysis
 -- Fecha: 29/04/2026
 -- =====================================================
 
@@ -20,7 +19,7 @@ USE tu_base_de_datos;  -- CAMBIA POR TU BASE DE DATOS
 -- =====================================================
 -- 1. LIMPIEZA PREVIA (evita errores "table exists")
 -- =====================================================
-DROP TABLE IF EXISTS Audio_Analysis, Audio_Features, albums, genre, dataset;
+DROP TABLE IF EXISTS popularity_analysis, audio_features, albums, genre, dataset;
 
 -- =====================================================
 -- 2. TABLA PRINCIPAL: dataset (desde CSV)
@@ -59,9 +58,9 @@ IGNORE 1 ROWS
  popularity, duration_ms, track_genre);
 
 -- =====================================================
--- 3. TABLA Audio_Features (datos únicos de audio)
+-- 3. TABLA audio_features (datos únicos de audio)
 -- =====================================================
-CREATE TABLE Audio_Features (
+CREATE TABLE audio_features (
     track_id VARCHAR(255) PRIMARY KEY,
     danceability DECIMAL(5,4) NOT NULL,
     energy DECIMAL(5,4) NOT NULL,
@@ -77,7 +76,7 @@ CREATE TABLE Audio_Features (
     time_signature INT
 );
 
-INSERT INTO Audio_Features
+INSERT INTO audio_features
 SELECT DISTINCT
     track_id, danceability, energy, `key`, loudness, mode, speechiness,
     acousticness, instrumentalness, liveness, valence, tempo, time_signature
@@ -85,35 +84,30 @@ FROM dataset
 WHERE track_id IS NOT NULL AND track_id <> '';
 
 -- =====================================================
--- 4. TABLA Audio_Analysis (métricas derivadas)
+-- 4. NUEVA TABLA popularity_analysis (REEMPLAZA audio_analysis)
 -- =====================================================
-CREATE TABLE Audio_Analysis (
+CREATE TABLE popularity_analysis (
     track_id VARCHAR(255) PRIMARY KEY,
-    dance_energy_sum DECIMAL(6,4) NOT NULL,
-    dance_energy_avg DECIMAL(5,4) NOT NULL,
-    is_dance_track BOOLEAN,
-    is_energy_high BOOLEAN,
-    tempo_category VARCHAR(50),
-    total_features_score DECIMAL(6,4),
-    energy_efficiency DECIMAL(5,4)  -- Nueva métrica: valence/energy
+    track_name VARCHAR(255) NOT NULL,
+    artist_id VARCHAR(255),
+    album_id VARCHAR(255),
+    popularity INT,
+    danceability DECIMAL(5,4)
 );
 
-INSERT INTO Audio_Analysis
-SELECT
-    track_id,
-    (danceability + energy) AS dance_energy_sum,
-    ((danceability + energy) / 2) AS dance_energy_avg,
-    (danceability + energy > 1.2) AS is_dance_track,
-    (energy > 0.7) AS is_energy_high,
-    CASE
-        WHEN tempo < 90 THEN 'Lento'
-        WHEN tempo < 120 THEN 'Medio'
-        WHEN tempo < 140 THEN 'Rápido'
-        ELSE 'Muy Rápido'
-    END AS tempo_category,
-    (danceability + energy + valence) AS total_features_score,
-    (valence / NULLIF(energy, 0)) AS energy_efficiency
-FROM Audio_Features;
+INSERT INTO popularity_analysis
+SELECT 
+    d.track_id,
+    d.track_name,
+    d.artists AS artist_id,
+    d.album_name AS album_id,
+    d.popularity,
+    d.danceability
+FROM dataset d
+JOIN audio_features af ON d.track_id = af.track_id
+WHERE d.popularity IS NOT NULL 
+  AND d.popularity > 0
+ORDER BY d.popularity DESC;
 
 -- =====================================================
 -- 5. TABLA albums (metadatos de álbumes)
@@ -131,8 +125,7 @@ SELECT
     track_id, track_name, album_name, artists, popularity
 FROM dataset
 WHERE track_id IS NOT NULL 
-  AND popularity IS NOT NULL
-  AND track_id NOT IN (SELECT track_id FROM Audio_Features);
+  AND popularity IS NOT NULL;
 
 -- =====================================================
 -- 6. TABLA genre (clasificación por géneros)
@@ -161,7 +154,7 @@ FROM dataset
 WHERE track_genre IS NOT NULL AND track_genre <> '';
 
 -- =====================================================
--- 7. VERIFICACIÓN DE TABLAS (UNION ALL corregido)
+-- 7. VERIFICACIÓN DE TABLAS (5 tablas, UNION ALL corregido)
 -- =====================================================
 SELECT 
     'dataset' AS tabla,
@@ -173,20 +166,20 @@ FROM dataset
 UNION ALL
 
 SELECT 
-    'Audio_Features' AS tabla,
+    'audio_features' AS tabla,
     COUNT(*) AS total_registros,
     ROUND(AVG(tempo), 1) AS avg_tempo,
-    SUM(is_dance_track) AS dance_tracks
-FROM Audio_Analysis aa JOIN Audio_Features af ON aa.track_id = af.track_id
+    ROUND(AVG(danceability), 3) AS avg_danceability
+FROM audio_features
 
 UNION ALL
 
 SELECT 
-    'Audio_Analysis' AS tabla,
+    'popularity_analysis' AS tabla,
     COUNT(*) AS total_registros,
-    ROUND(AVG(total_features_score), 2) AS avg_score,
-    SUM(is_energy_high) AS high_energy_tracks
-FROM Audio_Analysis
+    ROUND(AVG(popularity), 1) AS avg_popularity,
+    COUNT(DISTINCT artist_id) AS distinct_artists
+FROM popularity_analysis
 
 UNION ALL
 
@@ -203,30 +196,29 @@ SELECT
     'genre' AS tabla,
     COUNT(*) AS total_registros,
     COUNT(DISTINCT track_genre) AS distinct_genres,
-    0 AS dummy
+    COUNT(DISTINCT genre_category) AS genre_categories
 FROM genre;
 
 -- =====================================================
--- 8. ANÁLISIS EJECUTIVO (Top 10)
+-- 8. ANÁLISIS EJECUTIVO (Top 10 por popularidad)
 -- =====================================================
-SELECT 'TOP 10 DANCE TRACKS' AS analisis;
+SELECT 'TOP 10 TRACKS POR POPULARIDAD' AS analisis;
 SELECT 
-    a.track_name,
-    a.artists,
-    aa.dance_energy_avg,
-    aa.total_features_score,
-    g.track_genre
-FROM albums a
-JOIN Audio_Analysis aa ON a.track_id = aa.track_id
-JOIN genre g ON a.track_id = g.track_id
-ORDER BY aa.dance_energy_avg DESC
+    pa.track_name,
+    pa.artist_id,
+    pa.album_id,
+    pa.popularity,
+    pa.danceability,
+    g.genre_category
+FROM popularity_analysis pa
+JOIN genre g ON pa.track_id = g.track_id
+ORDER BY pa.popularity DESC, pa.danceability DESC
 LIMIT 10;
 
 -- =====================================================
 -- 9. EXPORTACIÓN A CSV (ajusta secure_file_priv)
 -- =====================================================
 -- Ejecuta primero: SHOW VARIABLES LIKE 'secure_file_priv';
--- Y usa esa ruta exacta abajo:
 
 SELECT * FROM dataset
 INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/dataset_final.csv'
@@ -234,14 +226,14 @@ FIELDS TERMINATED BY ','
 OPTIONALLY ENCLOSED BY '"' 
 LINES TERMINATED BY '\n';
 
-SELECT * FROM Audio_Features
-INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Audio_Features_final.csv'
+SELECT * FROM audio_features
+INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/audio_features_final.csv'
 FIELDS TERMINATED BY ',' 
 OPTIONALLY ENCLOSED BY '"' 
 LINES TERMINATED BY '\n';
 
-SELECT * FROM Audio_Analysis
-INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Audio_Analysis_final.csv'
+SELECT * FROM popularity_analysis
+INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/popularity_analysis_final.csv'
 FIELDS TERMINATED BY ',' 
 OPTIONALLY ENCLOSED BY '"' 
 LINES TERMINATED BY '\n';
@@ -263,7 +255,6 @@ LINES TERMINATED BY '\n';
 -- =====================================================
 SELECT 
     'PROYECTO COMPLETADO ✅' AS estado,
-    COUNT(*) AS total_tracks,
-    ROUND(AVG(popularity), 1) AS popularidad_promedio,
-    CURRENT_TIMESTAMP() AS fecha_ejecucion
-FROM dataset;
+    (SELECT COUNT(*) FROM dataset) AS total_tracks,
+    (SELECT ROUND(AVG(popularity), 1) FROM dataset) AS popularidad_promedio,
+    CURRENT_TIMESTAMP() AS fecha_ejecucion;
