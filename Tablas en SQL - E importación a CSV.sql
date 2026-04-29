@@ -86,30 +86,53 @@ WHERE track_id IS NOT NULL AND track_id <> '';
 -- =====================================================
 -- 4. NUEVA TABLA popularity_analysis (REEMPLAZA audio_analysis)
 -- =====================================================
-CREATE TABLE popularity_analysis (
-    track_id VARCHAR(255) PRIMARY KEY,
-    track_name VARCHAR(255) NOT NULL,
-    artist_id VARCHAR(255),
-    track_genre VARCHAR(255), # modif
-    album_id VARCHAR(255),
-    popularity INT,
-    danceability DECIMAL(5,4)
+
+CREATE TABLE IF NOT EXISTS popularity_analysis (
+    track_id VARCHAR(255) PRIMARY KEY, 
+    track_name VARCHAR(255) NOT NULL,  
+    artist_id VARCHAR(255),            
+    track_genre VARCHAR(255), #modif        
+    album_id VARCHAR(255),             
+    popularity INT,                    
+    danceability DECIMAL(5, 4)         
 );
 
-INSERT INTO popularity_analysis
+    track_id, 
+    track_name, 
+    artist_id, 
+    track_genre, #modif
+    album_id, 
+    popularity, 
+    danceability
+)
 SELECT 
     d.track_id,
     d.track_name,
     d.artists AS artist_id,
+    g.genre_name AS track_genre, -- Fetched from the genre table
     d.album_name AS album_id,
-    d.track_genre #modif
     d.popularity,
-    d.danceability
-FROM dataset d
-JOIN audio_features af ON d.track_id = af.track_id
-WHERE d.popularity IS NOT NULL 
-  AND d.popularity > 0
-ORDER BY d.popularity DESC;
+    af.danceability
+FROM  #modif
+    dataset d
+JOIN 
+    audio_features af ON d.track_id = af.track_id
+JOIN 
+    genre g ON d.genre_id = g.genre_id 
+WHERE 
+    d.popularity IS NOT NULL 
+    AND d.popularity > 0
+ORDER BY 
+    d.popularity DESC;
+
+
+SELECT 
+    track_name, 
+    track_genre, 
+    popularity 
+FROM 
+    popularity_analysis 
+LIMIT 10;
 
 -- =====================================================
 -- 5. TABLA albums (metadatos de álbumes)
