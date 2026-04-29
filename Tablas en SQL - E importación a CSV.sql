@@ -90,6 +90,7 @@ CREATE TABLE popularity_analysis (
     track_id VARCHAR(255) PRIMARY KEY,
     track_name VARCHAR(255) NOT NULL,
     artist_id VARCHAR(255),
+    track_genre VARCHAR(255), # modif
     album_id VARCHAR(255),
     popularity INT,
     danceability DECIMAL(5,4)
@@ -101,6 +102,7 @@ SELECT
     d.track_name,
     d.artists AS artist_id,
     d.album_name AS album_id,
+    d.track_genre #modif
     d.popularity,
     d.danceability
 FROM dataset d
