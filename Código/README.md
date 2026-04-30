@@ -167,3 +167,22 @@ El catálogo muestra que los géneros Latino, Pop y Reggaetón dominan actualmen
 
 
 
+## Próximos Pasos
+
+- Hacer el analísis con otras **carcterísticas audio** como **energia** o **tempo** para ver como infuyen sobre la popularidad
+- Hacer un analísis por **fecha de lanzamiento de los albumes y de las canciones** para si la populidad de determinados géneros musicales varía con el tiempo
+
+
+---
+
+## Cómo Replicar el Proyecto
+
+1. Clona el repositorio:
+```bash
+git clone https://github.com/juanboberg-maker/sql-database
+```
+2. Instala las dependencias:
+```bash
+pip install pandas matplotlib
+```
+3. Abre y ejecuta `Notebook.ipynb` en orden desde el Día 1
