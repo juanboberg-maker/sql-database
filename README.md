@@ -10,8 +10,8 @@ Tracks: Información base de la canción (ID, nombre, popularidad, duración).
 
 Artists: Datos de los artistas.
 
-# Albums: Datos de los álbumes y fechas de lanzamiento.
-Esto nos permite realizar JOINs para analizar correlaciones entre el artista, el álbum y el rendimiento comercial de la pista.
+# Albums: Datos de los álbumes.
+Esto nos permite realizar JOINs para analizar correlaciones entre el artista, el álbum y la populiridad de la pista. #mmdif
 
 # Preguntas de Investigación
 ¿Pueden las características de audio (tempo, energía, bailabilidad) tener un impacto en la popularidad de una canción? Eligimos bailabidad #modif
