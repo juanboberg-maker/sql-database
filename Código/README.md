@@ -1,18 +1,35 @@
-# sql-database
-# Resumen del Proyecto: Spotify Music Insights
-# Objetivo
+
+ #  Proyecto: Spotify Music Tracks Popularity Analyse
+
+ Título del proyecto → Claro, profesional y orientado al negocio.
+Objetivo del proyecto → 1–2 frases explicando qué problema resuelves y por qué importa.
+Dataset → Fuente (real, sintético, generado). Tablas y variables principales. Diccionario breve.
+Proceso de análisis → Describe brevemente: EDA, limpieza, KPIs calculados, métricas clave usadas...
+Resultados / Insights → Los hallazgos más importantes, claros y accionables.
+Próximos pasos → Qué extenderías si tuvieras más datos o más tiempo.
+Cómo replicar el proyecto → Enlace al notebook, queries SQL o dashboard.
+
+# Objetivo: 
+
 Construir una pipeline de datos completa para analizar qué factores definen la popularidad de las canciones en Spotify. Partiendo de datos crudos, normalizaremos la información en una base de datos relacional para realizar consultas SQL analíticas y extraer conclusiones narrativas mediante visualizaciones en Python.
 
-# Estructura de la Base de Datos #modif
+# Estructura de la Base de Datos 
+## Dataset
+
+- **Fuente:** **Spotify Tracks Dataset**— registro que recopila las canciones de   Spotify con sus distinctos generos y sus características audio 
+- **Registros originales:** 114.000 filas × 21 columnas
+- **Registros tras limpieza:** ~89,741 filas útiles para el análisis
+- **Cobertura temporal:** datos recopilados en el año 2022
+
 Dividiremos el dataset en tres tablas relacionales para optimizar la estructura:
 
-albums: Información base de los albums de donde provienen las canciones  id de la canción, nombre de la canción, nombre del album, artistas, popularidad.
+albums: información basícas de los albums de donde provienen las canciones  id de la canción, nombre de la canción, nombre del album, artistas, popularidad.
 
-genre: generos musicales 
+genre: recopoila la id de las canciones y también sus respectivos generos musicales
 
-tracks_features:
+auddio_features: recopila las id de las canciones y sus caracteríticas auditivas como bailabilidad, acousticidad, intrumentalidad... 
 
-Esto nos permite realizar JOINs para analizar correlaciones entre el artista, el álbum y la populiridad de la pista. #mmdif
+Partiremos de estas para realizar JOINs para analizar correlaciones entre el artista, el álbum, las características auditivas de las canciones y la populiridad de la pista. #mmdif
 
 # Preguntas de Investigación
 ¿Pueden las características de audio (tempo, energía, bailabilidad) tener un impacto en la popularidad de una canción? Eligimos bailabidad #modif
