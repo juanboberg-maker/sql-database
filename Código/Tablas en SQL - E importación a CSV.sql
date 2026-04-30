@@ -132,7 +132,7 @@ SELECT
     popularity 
 FROM 
     popularity_analysis 
-LIMIT 10;
+LIMIT 15;
 
 -- =====================================================
 -- 5. TABLA albums (metadatos de álbumes)
