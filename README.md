@@ -14,7 +14,7 @@ Artists: Datos de los artistas.
 Esto nos permite realizar JOINs para analizar correlaciones entre el artista, el álbum y el rendimiento comercial de la pista.
 
 # Preguntas de Investigación
-¿Qué características de audio (tempo, energía, bailabilidad) tienen mayor impacto en la popularidad de una canción?
+¿Pueden las características de audio (tempo, energía, bailabilidad) tener un impacto en la popularidad de una canción? Eligimos bailabidad #modif
 
 ¿Existe un dominio de ciertos artistas o géneros musicales en el top de las listas de reproducción, o la popularidad está distribuida de manera equitativa?
 
