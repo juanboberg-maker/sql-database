@@ -21,6 +21,19 @@ Construir una pipeline de datos completa para analizar qué factores definen la 
 - **Registros tras limpieza:** ~89,741 filas útiles para el análisis
 - **Cobertura temporal:** datos recopilados en el año 2022
 
+### Variables principales utilizadas
+
+| Variable | Tipo | Descripción |
+
+| `track_id` | Categórica | País donde ocurrió el ataque |
+| `state` | Categórica | Estado o región |
+| `location` | Categórica | Lugar específico del ataque |
+| `activity` | Categórica | Actividad que realizaba la víctima |
+| `age` | Numérica | Edad de la víctima |
+| `injury` | Texto | Descripción de la herida |
+| `species` | Categórica | Especie de tiburón involucrada |
+| `fatal` | Booleana | Si el ataque fue mortal (derivada de `injury`) |
+| `age_range` | Categórica | Rango de edad (`<18`, `18-25`, `26-35`...) |
 Dividiremos el dataset en tres tablas relacionales para optimizar la estructura:
 
 albums: información basícas de los albums de donde provienen las canciones  id de la canción, nombre de la canción, nombre del album, artistas, popularidad.
