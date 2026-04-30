@@ -3,14 +3,15 @@
 # Objetivo
 Construir una pipeline de datos completa para analizar qué factores definen la popularidad de las canciones en Spotify. Partiendo de datos crudos, normalizaremos la información en una base de datos relacional para realizar consultas SQL analíticas y extraer conclusiones narrativas mediante visualizaciones en Python.
 
-# Estructura de la Base de Datos
+# Estructura de la Base de Datos #modif
 Dividiremos el dataset en tres tablas relacionales para optimizar la estructura:
 
-Tracks: Información base de la canción (ID, nombre, popularidad, duración).
+albums: Información base de los albums de donde provienen las canciones  id de la canción, nombre de la canción, nombre del album, artistas, popularidad.
 
-Artists: Datos de los artistas.
+genre: generos musicales 
 
-# Albums: Datos de los álbumes.
+tracks_features:
+
 Esto nos permite realizar JOINs para analizar correlaciones entre el artista, el álbum y la populiridad de la pista. #mmdif
 
 # Preguntas de Investigación
