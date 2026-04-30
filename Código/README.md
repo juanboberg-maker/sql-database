@@ -160,11 +160,10 @@ Mantenemos una indentación estructurada y comentarios técnicos precisos, asegu
 - El género con mayor popularidad media es k-pop con 59.36 de popularidad media.
 
 
-- Relación con la Bailabilidad: Se observa que la gran mayoría de los éxitos actuales mantienen una bailabilidad alta (generalmente por encima de 0.70), como es el caso de I'm Good (Blue) o I Ain't Worried.
+- Sinergia Álbum-Popularidad: Es evidente que álbumes como "Un Verano Sin Ti" de Bad Bunny logran posicionar múltiples canciones (Me Porto Bonito, Tití Me Preguntó, Efecto) en el top más alto del ranking. Esto confirma que el éxito de un álbum arrastra la popularidad de sus tracks individuales.
 
-La Excepción: Es interesante notar canciones como Unholy, que a pesar de tener una bailabilidad más moderada (0.36), alcanzan el máximo de popularidad, lo que indica que en ciertos géneros (como el Pop), otros factores como la producción o la viralidad compensan una menor métrica de baile.
-
-Este visual nos permite confirmar que para alcanzar el "Top", una canción suele necesitar una combinación de un género con alta demanda y, preferiblemente, un ritmo bailable.
+Patrones de Bailabilidad:La mayoría de los éxitos rotundos  tienen una bailabilidad muy alta (superior a 0.65). Sin embargo, hay excepciones interesantes como Unholy, que demuestra que una canción puede ser extremadamente popular incluso con una métrica de baile menor si el género (Pop/Dance) tiene una fuerte tracción.
+El catálogo muestra que los géneros Latino, Pop y Reggaetón dominan actualmente las posiciones de mayor popularidad, sugiriendo una tendencia clara en los gustos del público
 
 
 
