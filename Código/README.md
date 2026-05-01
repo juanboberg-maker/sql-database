@@ -1,13 +1,6 @@
 
  #  Proyecto: Spotify Music Tracks Popularity Analyse
 
- Título del proyecto → Claro, profesional y orientado al negocio.
-Objetivo del proyecto → 1–2 frases explicando qué problema resuelves y por qué importa.
-Dataset → Fuente (real, sintético, generado). Tablas y variables principales. Diccionario breve.
-Proceso de análisis → Describe brevemente: EDA, limpieza, KPIs calculados, métricas clave usadas...
-Resultados / Insights → Los hallazgos más importantes, claros y accionables.
-Próximos pasos → Qué extenderías si tuvieras más datos o más tiempo.
-Cómo replicar el proyecto → Enlace al notebook, queries SQL o dashboard.
 
 # Objetivo: 
 
@@ -113,7 +106,7 @@ auddio_features: recopila las id de las canciones y sus caracteríticas audio co
 
 # 5 Analisis de los datos obetenidos
 
-Partimos de estas tablas para realizar **JOINs** para deducir correlaciones entre el artista, el álbum, las características audio (en nuestro caso nos centramos sobre la bailibidad) de las canciones y la populiridad de la pista. 
+Partimos de estas tablas para realizar **JOINs** para deducir correlaciones entre el artista, el álbum, las características audio (en nuestro caso nos centramos sobre la bailabilidad) de las canciones y la populiridad de la pista. 
 
 # Verificación de los datos #esto ponlo en la diapo bonus (solo pon que usamos estas funciones para verificar y confirmar nuestos)
 
