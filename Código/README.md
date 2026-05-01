@@ -179,3 +179,6 @@ git clone https://github.com/juanboberg-maker/sql-database
 pip install pandas matplotlib
 ```
 3. Abre y ejecuta `Notebook.ipynb` en orden desde el Día 1
+
+#Presentación 
+https://canva.link/8i9fs3hs6t0b60v
